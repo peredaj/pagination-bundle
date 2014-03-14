@@ -1,0 +1,66 @@
+{# PeredajPaginationBundle::bootstrap3-layout.html.twig #}
+{#
+ #
+ # This file is part of the PeredajPaginationBundle package.
+ #
+ # (c) Bochkarev Konstantin <konstantin.bochkarev@mail.ru>
+ #
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ #
+ #}
+
+{% block pagination_widget %}
+{% spaceless %}
+<ul class="pagination">
+{%for page in pages %}
+    {% set link_attributes = {} %}
+    {% set link_attributes = link_attributes | merge({href: path(app.request.attributes.get('_route'), {'page': page.number})}) %}
+    {% set li_attributes = {} %}
+    {% set name = page.number %}
+    {% if page.isCurrent %}
+        {% set name = 'current' %}
+        {% set li_attributes =  li_attributes | merge({class: 'active'}) %}
+        {{ block('current_link_widget') }}
+    {% elseif page.isFirst %}
+        {% set name = 'first' %}
+        {{ block('link_widget') }}
+    {% elseif page.inRange %}
+        {{ block('link_widget') }}
+    {% elseif page.isLast %}
+        {% set name = 'last' %}
+        {{ block('link_widget') }}
+    {% endif %}
+{% endfor %}
+</ul>
+{% endspaceless %}
+{% endblock pagination_widget %}
+
+
+{% block li_attributes %}
+{% spaceless %}
+{% for name, value in li_attributes %} {{ name }}="{{ value }}"{% endfor %}
+{% endspaceless %}
+{% endblock li_attributes %}
+
+
+{% block link_attributes %}
+{% spaceless %}
+{% for name, value in link_attributes %} {{ name }}="{{ value}}"{% endfor %}
+{% endspaceless %}
+{% endblock link_attributes %}
+
+
+{% block current_link_widget %}
+{% spaceless %}
+<li {{ block('li_attributes') }}><span>{{ page.number }} <span class="sr-only">({{ name | trans }})</span></li>
+{% endspaceless %}
+{% endblock current_link_widget %}
+
+
+
+{% block link_widget %}
+{% spaceless %}
+<li {{ block('li_attributes') }}><a {{ block('link_attributes') }}>{{ name | trans }}</a></li>
+{% endspaceless %}
+{% endblock link_widget %}
