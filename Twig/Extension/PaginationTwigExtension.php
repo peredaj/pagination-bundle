@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PeredajPaginationBundle package.
+ *
+ * (c) Bochkarev Konstantin <konstantin.bochkarev@mail.ru>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Peredaj\PaginationBundle\Twig\Extension;
 
 
@@ -46,20 +55,40 @@ class PaginationTwigExtension extends \Twig_Extension
         $this->environment = $environment;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('paginator', array($this, 'getPaginator'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('pagination', array($this, 'getPagination'), array('is_safe' => array('html'))),
         );
     }
     
-    public function getPaginator(Paginator $paginator)
+    /**
+     * Pagination twig function
+     * 
+     * @param \Peredaj\PaginationBundle\Paginator\Paginator $paginator
+     * 
+     * @return string
+     */
+    public function getPagination(Paginator $paginator)
     {
         return $this->renderBlock('pagination_widget', array(
             'pages' => $paginator->getPages(),
         ));
     }
     
+    /**
+     * Pagination block rendering
+     * 
+     * @param string $name
+     * @param array $parameters
+     * 
+     * @return string
+     * 
+     * @throws \InvalidArgumentException
+     */
     public function renderBlock($name, $parameters)
     {
         foreach($this->getTemplates() as $template)
@@ -74,6 +103,7 @@ class PaginationTwigExtension extends \Twig_Extension
     }
     
     /**
+     * Get template objects
      * 
      * @return \Twig_Template[]
      */

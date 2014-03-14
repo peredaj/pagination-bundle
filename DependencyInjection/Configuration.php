@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PeredajPaginationBundle package.
+ *
+ * (c) Bochkarev Konstantin <konstantin.bochkarev@mail.ru>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Peredaj\PaginationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -27,7 +36,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('template')
-                ->defaultValue('PeredajPaginationBundle::layout.html.twig')
+                ->defaultValue('PeredajPaginationBundle::bootstrap3-layout.html.twig')
                 ->end()
         ;
         return $treeBuilder;
