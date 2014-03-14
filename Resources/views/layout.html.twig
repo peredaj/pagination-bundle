@@ -1,0 +1,45 @@
+{# PeredajPaginationBundle::layout.html.twig #}
+
+
+{% block pagination_widget %}
+{% spaceless %}
+<p class="pagination">
+{%for page in pages %}
+    {% if page.isCurrent %}
+        {{ block('current_page_widget') }}
+    {% elseif page.isFirst %}
+        {{ block('first_page_widget') }}
+    {% elseif page.inRange %}
+        {{ block('range_page_widget') }}
+    {% elseif page.isLast %}
+        {{ block('last_page_widget') }}
+    {% endif %}
+{% endfor %}
+</p>
+{% endspaceless %}
+{% endblock pagination_widget %}
+
+{% block first_page_widget %}
+{% spaceless %}
+<a href="{{ path(app.request.attributes.get('_route'), {'page': 1}) }}">first</a>&nbsp;
+{% endspaceless %}
+{% endblock first_page_widget %}
+
+
+{% block current_page_widget %}
+{% spaceless %}
+&nbsp;{{ page.number }}
+{% endspaceless %}
+{% endblock current_page_widget %}
+
+{% block range_page_widget %}
+{% spaceless %}
+&nbsp;<a href="{{ path(app.request.attributes.get('_route'), {'page': page.number}) }}">{{ page.number }}</a>
+{% endspaceless %}
+{% endblock range_page_widget %}
+
+{% block last_page_widget %}
+{% spaceless %}
+&nbsp;<a href="{{ path(app.request.attributes.get('_route'), {'page': page.number}) }}">last</a>
+{% endspaceless %}
+{% endblock last_page_widget %}
